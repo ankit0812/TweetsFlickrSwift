@@ -6,150 +6,134 @@
 //  Copyright (c) 2015 optimusmac4. All rights reserved.
 //
 
-
 import Foundation
 import UIKit
 
-let apiKey = "32036da6f917a5a5bf879ce5ba1b6863"
+//let reuseIdentifier = "FlickrCell"
 
-struct FlickrSearchResults {
-    let searchTerm : String
-    let searchResults : [FlickrPhoto]
+class FirstViewController: UICollectionViewController {
+    
+    private let reuseIdentifier = "FlickrCell"
+    private let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
+    
+    private var searches = [FlickrSearchResults]()
+    private let flickr = Flickr()
+    
+    func photoForIndexPath(indexPath: NSIndexPath) -> FlickrPhoto {
+        return searches[indexPath.section].searchResults[indexPath.row]
+    }
+}
+/*
+// MARK: - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+// Get the new view controller using [segue destinationViewController].
+// Pass the selected object to the new view controller.
+}
+*/
+
+// MARK: UICollectionViewDataSource
+
+// MARK: UICollectionViewDelegate
+
+/*
+// Uncomment this method to specify if the specified item should be highlighted during tracking
+override func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+return true
+}
+*/
+
+/*
+// Uncomment this method to specify if the specified item should be selected
+override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+return true
+}
+*/
+
+/*
+// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
+override func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+return false
 }
 
-class FlickrPhoto : Equatable {
-    var thumbnail : UIImage?
-    var largeImage : UIImage?
-    let photoID : String
-    let farm : Int
-    let server : String
-    let secret : String
-    
-    init (photoID:String,farm:Int, server:String, secret:String) {
-        self.photoID = photoID
-        self.farm = farm
-        self.server = server
-        self.secret = secret
-    }
-    
-    func flickrImageURL(size:String = "m") -> NSURL {
-        return NSURL(string: "http://farm\(farm).staticflickr.com/\(server)/\(photoID)_\(secret)_\(size).jpg")!
-    }
-    
-    func loadLargeImage(completion: (flickrPhoto:FlickrPhoto, error: NSError?) -> Void) {
-        let loadURL = flickrImageURL(size: "b")
-        let loadRequest = NSURLRequest(URL:loadURL)
-        NSURLConnection.sendAsynchronousRequest(loadRequest,
-            queue: NSOperationQueue.mainQueue()) {
-                response, data, error in
-                
-                if error != nil {
-                    completion(flickrPhoto: self, error: error)
-                    return
-                }
-                
-                if data != nil {
-                    let returnedImage = UIImage(data: data)
-                    self.largeImage = returnedImage
-                    completion(flickrPhoto: self, error: nil)
-                    return
-                }
-                
-                completion(flickrPhoto: self, error: nil)
-        }
-    }
-    
-    func sizeToFillWidthOfSize(size:CGSize) -> CGSize {
-        if thumbnail == nil {
-            return size
-        }
-        
-        let imageSize = thumbnail!.size
-        var returnSize = size
-        
-        let aspectRatio = imageSize.width / imageSize.height
-        
-        returnSize.height = returnSize.width / aspectRatio
-        
-        if returnSize.height > size.height {
-            returnSize.height = size.height
-            returnSize.width = size.height * aspectRatio
-        }
-        
-        return returnSize
-    }
-    
+override func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+return false
 }
 
-func == (lhs: FlickrPhoto, rhs: FlickrPhoto) -> Bool {
-    return lhs.photoID == rhs.photoID
+override func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+
+}
+*/
+
+
+
+extension FirstViewController : UICollectionViewDataSource {
+    
+    //number of sections is the count of the searches array
+    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return searches.count
+    }
+    
+    //number of items in a section is the count of the searchResults array
+    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return searches[section].searchResults.count
+    }
+    
+    
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FlickrPhotoCell
+        //This will call photoForIndexPath with indexPath for each photo found
+        let flickrPhoto = photoForIndexPath(indexPath)
+        cell.backgroundColor = UIColor.blackColor()
+        
+        cell.imageView.image = flickrPhoto.thumbnail
+        //Populating the imageView with photos fetched
+        return cell
+        
+    }
 }
 
-class Flickr {
-    
-    let processingQueue = NSOperationQueue()
-    
-    func searchFlickrForTerm(searchTerm: String, completion : (results: FlickrSearchResults?, error : NSError?) -> Void){
-        
-        let searchURL = flickrSearchURLForSearchTerm(searchTerm)
-        let searchRequest = NSURLRequest(URL: searchURL)
-        NSURLConnection.sendAsynchronousRequest(searchRequest, queue: processingQueue) {response, data, error in
+
+extension FirstViewController : UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.searches.removeAll(keepCapacity: Bool())
+        //Will be called when user press enter in text field
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        collectionView!.addSubview(activityIndicator)            //adding activity indicator on collection view
+        activityIndicator.frame = collectionView!.bounds
+        activityIndicator.startAnimating()               //starting animation of activity indicator
+        flickr.searchFlickrForTerm(textField.text) {
+            results, error in
+            activityIndicator.removeFromSuperview()        //When search is done then removing the activity indicator
             if error != nil {
-                completion(results: nil,error: error)
-                return
+                println("Error searching : \(error)")
             }
-            
-            var JSONError : NSError?
-            let resultsDictionary = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions(0), error: &JSONError) as? NSDictionary
-            if JSONError != nil {
-                completion(results: nil, error: JSONError)
-                return
+            if results != nil {                         //Printing the count of number of images found
+                println("Found \(results!.searchResults.count) matching \(results!.searchTerm)")
+                self.searches.insert(results!, atIndex: 0)
+                self.collectionView?.reloadData()
             }
-            
-            switch (resultsDictionary!["stat"] as! String) {
-            case "ok":
-                println("Results processed OK")
-            case "fail":
-                let APIError = NSError(domain: "FlickrSearch", code: 0, userInfo: [NSLocalizedFailureReasonErrorKey:resultsDictionary!["message"]!])
-                completion(results: nil, error: APIError)
-                return
-            default:
-                let APIError = NSError(domain: "FlickrSearch", code: 0, userInfo: [NSLocalizedFailureReasonErrorKey:"Uknown API response"])
-                completion(results: nil, error: APIError)
-                return
-            }
-            
-            let photosContainer = resultsDictionary!["photos"] as! NSDictionary
-            let photosReceived = photosContainer["photo"] as! [NSDictionary]
-            
-            let flickrPhotos : [FlickrPhoto] = photosReceived.map {
-                photoDictionary in
-                
-                let photoID = photoDictionary["id"] as? String ?? ""
-                let farm = photoDictionary["farm"] as? Int ?? 0
-                let server = photoDictionary["server"] as? String ?? ""
-                let secret = photoDictionary["secret"] as? String ?? ""
-                
-                let flickrPhoto = FlickrPhoto(photoID: photoID, farm: farm, server: server, secret: secret)
-                
-                let imageData = NSData(contentsOfURL: flickrPhoto.flickrImageURL())
-                flickrPhoto.thumbnail = UIImage(data: imageData!)
-                
-                return flickrPhoto
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                completion(results:FlickrSearchResults(searchTerm: searchTerm, searchResults: flickrPhotos), error: nil)
-            })
         }
+        return true
     }
-    
-    private func flickrSearchURLForSearchTerm(searchTerm:String) -> NSURL {
-        
-        let escapedTerm = searchTerm.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-        let URLString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(apiKey)&text=\(escapedTerm)&per_page=20&format=json&nojsoncallback=1"
-        return NSURL(string: URLString)!
-    }
-    
-    
 }
+
+
+extension FirstViewController : UICollectionViewDelegateFlowLayout {
+    //It is for managing layout
+    func collectionView(collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            let flickrPhoto =  photoForIndexPath(indexPath)
+            return CGSize(width: 100, height: 100)
+            
+    }
+    func collectionView(collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+            return sectionInsets
+    }
+}
+
