@@ -86,7 +86,8 @@ extension FirstViewController : UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FlickrPhotoCell
         //This will call photoForIndexPath with indexPath for each photo found
         let flickrPhoto = photoForIndexPath(indexPath)
-        cell.backgroundColor = UIColor.blackColor()
+        cell.backgroundColor = UIColor.whiteColor()
+        
         
         cell.imageView.image = flickrPhoto.thumbnail
         //Populating the imageView with photos fetched
