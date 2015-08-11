@@ -22,7 +22,11 @@ class FirstViewController: UICollectionViewController {
     func photoForIndexPath(indexPath: NSIndexPath) -> FlickrPhoto {
         return searches[indexPath.section].searchResults[indexPath.row]
     }
+    
 }
+
+
+
 /*
 // MARK: - Navigation
 
@@ -86,8 +90,6 @@ extension FirstViewController : UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FlickrPhotoCell
         //This will call photoForIndexPath with indexPath for each photo found
         let flickrPhoto = photoForIndexPath(indexPath)
-        cell.backgroundColor = UIColor.whiteColor()
-        
         
         cell.imageView.image = flickrPhoto.thumbnail
         //Populating the imageView with photos fetched
@@ -98,37 +100,50 @@ extension FirstViewController : UICollectionViewDataSource {
 
 
 extension FirstViewController : UITextFieldDelegate {
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        textField.delegate=self
         self.searches.removeAll(keepCapacity: Bool())
         //Will be called when user press enter in text field
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
         collectionView!.addSubview(activityIndicator)            //adding activity indicator on collection view
         activityIndicator.frame = collectionView!.bounds
         activityIndicator.startAnimating()               //starting animation of activity indicator
         flickr.searchFlickrForTerm(textField.text) {
+            
             results, error in
             activityIndicator.removeFromSuperview()        //When search is done then removing the activity indicator
+            
             if error != nil {
                 println("Error searching : \(error)")
             }
+            
             if results != nil {                         //Printing the count of number of images found
                 println("Found \(results!.searchResults.count) matching \(results!.searchTerm)")
                 self.searches.insert(results!, atIndex: 0)
                 self.collectionView?.reloadData()
             }
         }
+        
+        textField.resignFirstResponder()
+
         return true
     }
+    
+    
 }
 
 
 extension FirstViewController : UICollectionViewDelegateFlowLayout {
     //It is for managing layout
+    
     func collectionView(collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
             let flickrPhoto =  photoForIndexPath(indexPath)
             return CGSize(width: 100, height: 100)
+            
             
     }
     func collectionView(collectionView: UICollectionView,
@@ -136,5 +151,19 @@ extension FirstViewController : UICollectionViewDelegateFlowLayout {
         insetForSectionAtIndex section: Int) -> UIEdgeInsets {
             return sectionInsets
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        var indexPaths : NSArray = collectionView!.indexPathsForSelectedItems()
+        var imgForDetail : DetailViewController = segue.destinationViewController as! DetailViewController
+        var thisPath : NSIndexPath = indexPaths[0] as! NSIndexPath
+        
+        let flickrPhoto = photoForIndexPath(thisPath) as FlickrPhoto
+        
+        imgForDetail.imageElement=flickrPhoto.thumbnail!
+    }
+
+    
 }
+
 
