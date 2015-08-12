@@ -18,33 +18,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="97" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wFx-rP-YTv">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="121" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wFx-rP-YTv">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TwitterCell" rowHeight="97" id="9Hn-46-uYr" customClass="TwitterCell" customModule="TweetsFlickrSwift" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TwitterCell" rowHeight="121" id="9Hn-46-uYr" customClass="TwitterCell" customModule="TweetsFlickrSwift" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Hn-46-uYr" id="X3c-dR-Td0">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T7p-FV-kaA">
-                                                    <rect key="frame" x="136" y="8" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T7p-FV-kaA">
+                                                    <rect key="frame" x="126" y="8" width="396" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2rv-HS-mIj">
-                                                    <rect key="frame" x="132" y="28" width="462" height="56"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2rv-HS-mIj">
+                                                    <rect key="frame" x="126" y="37" width="396" height="75"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                                 </textView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="571-9g-rGk">
-                                                    <rect key="frame" x="25" y="8" width="99" height="80"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="571-9g-rGk">
+                                                    <rect key="frame" x="8" y="8" width="99" height="104"/>
                                                 </imageView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="T7p-FV-kaA" firstAttribute="leading" secondItem="571-9g-rGk" secondAttribute="trailing" constant="19" id="5vu-UD-M4d"/>
+                                                <constraint firstAttribute="bottom" secondItem="571-9g-rGk" secondAttribute="bottom" constant="8" id="7YQ-HV-iEe"/>
+                                                <constraint firstAttribute="bottom" secondItem="2rv-HS-mIj" secondAttribute="bottom" constant="8" id="OQN-NY-ly3"/>
+                                                <constraint firstItem="2rv-HS-mIj" firstAttribute="top" secondItem="T7p-FV-kaA" secondAttribute="bottom" constant="8" id="OXw-hq-Bxj"/>
+                                                <constraint firstItem="2rv-HS-mIj" firstAttribute="leading" secondItem="571-9g-rGk" secondAttribute="trailing" constant="19" id="ULJ-5g-pOV"/>
+                                                <constraint firstItem="2rv-HS-mIj" firstAttribute="top" secondItem="T7p-FV-kaA" secondAttribute="bottom" constant="8" id="aTN-8E-wwz"/>
+                                                <constraint firstItem="571-9g-rGk" firstAttribute="leading" secondItem="X3c-dR-Td0" secondAttribute="leading" constant="8" id="g7V-wP-VxY"/>
+                                                <constraint firstItem="T7p-FV-kaA" firstAttribute="top" secondItem="X3c-dR-Td0" secondAttribute="top" constant="8" id="sAI-KH-rjQ"/>
+                                                <constraint firstItem="571-9g-rGk" firstAttribute="top" secondItem="X3c-dR-Td0" secondAttribute="top" constant="8" id="tvT-r0-eXx"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="imageSender" destination="571-9g-rGk" id="7MR-fg-IbE"/>
