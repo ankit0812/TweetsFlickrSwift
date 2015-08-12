@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		931485161B7A01870000EAD8 /* TwitterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931485151B7A01870000EAD8 /* TwitterCell.swift */; };
 		9314851A1B7A26A20000EAD8 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931485191B7A26A20000EAD8 /* DetailViewController.swift */; };
+		932286B21B7B0A7700A5137E /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932286B11B7B0A7700A5137E /* Twitter.framework */; };
+		932286B41B7B0A8000A5137E /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932286B31B7B0A8000A5137E /* Social.framework */; };
 		9372A28E1B7638E2003EBB99 /* FlickrSearcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9372A28D1B7638E2003EBB99 /* FlickrSearcher.swift */; };
 		9372A2901B763909003EBB99 /* FlickrPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9372A28F1B763909003EBB99 /* FlickrPhotoCell.swift */; };
 		93D621DD1B74957B0013D9E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D621DC1B74957B0013D9E7 /* AppDelegate.swift */; };
@@ -33,6 +35,8 @@
 /* Begin PBXFileReference section */
 		931485151B7A01870000EAD8 /* TwitterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterCell.swift; sourceTree = "<group>"; };
 		931485191B7A26A20000EAD8 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		932286B11B7B0A7700A5137E /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		932286B31B7B0A8000A5137E /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		9372A28D1B7638E2003EBB99 /* FlickrSearcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrSearcher.swift; sourceTree = "<group>"; };
 		9372A28F1B763909003EBB99 /* FlickrPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrPhotoCell.swift; sourceTree = "<group>"; };
 		93D621D71B74957B0013D9E7 /* TweetsFlickrSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TweetsFlickrSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,6 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				932286B41B7B0A8000A5137E /* Social.framework in Frameworks */,
+				932286B21B7B0A7700A5137E /* Twitter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,9 +84,9 @@
 		9372A28C1B7638A4003EBB99 /* Flickr */ = {
 			isa = PBXGroup;
 			children = (
-				93D621DE1B74957B0013D9E7 /* FirstViewController.swift */,
 				9372A28F1B763909003EBB99 /* FlickrPhotoCell.swift */,
 				9372A28D1B7638E2003EBB99 /* FlickrSearcher.swift */,
+				93D621DE1B74957B0013D9E7 /* FirstViewController.swift */,
 				931485191B7A26A20000EAD8 /* DetailViewController.swift */,
 			);
 			name = Flickr;
@@ -89,6 +95,8 @@
 		93D621CE1B74957B0013D9E7 = {
 			isa = PBXGroup;
 			children = (
+				932286B31B7B0A8000A5137E /* Social.framework */,
+				932286B11B7B0A7700A5137E /* Twitter.framework */,
 				93D621D91B74957B0013D9E7 /* TweetsFlickrSwift */,
 				93D621F11B74957B0013D9E7 /* TweetsFlickrSwiftTests */,
 				93D621D81B74957B0013D9E7 /* Products */,
@@ -107,8 +115,8 @@
 		93D621D91B74957B0013D9E7 /* TweetsFlickrSwift */ = {
 			isa = PBXGroup;
 			children = (
-				931485181B7A02A40000EAD8 /* Twitter */,
 				9372A28C1B7638A4003EBB99 /* Flickr */,
+				931485181B7A02A40000EAD8 /* Twitter */,
 				93D621DC1B74957B0013D9E7 /* AppDelegate.swift */,
 				93D621E21B74957B0013D9E7 /* Main.storyboard */,
 				93D621E51B74957B0013D9E7 /* Images.xcassets */,
